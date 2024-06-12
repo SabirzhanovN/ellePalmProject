@@ -1,0 +1,39 @@
+<div class="row">
+    {% for product in products %}
+        <div class="col-md-15 col-sm-3 col-xs-6 product-item">
+            <div class="product-images">
+                <a href="{% url 'product_detail' product.id %}" class="hover-images effect"><img src="{{ product.main_image.url }}" alt="photo" class="img-reponsive"></a>
+                <a href="{% url 'product_detail' product.id %}" class="btn-quickview">Больше</a>
+                <div class="ribbon-price"><span>{{ product.price }} сом</span></div>
+                <h3 class="product-title"><a href="#">{{ product.name }}</a></h3>
+            </div>
+            <div class="product-info-ver2">
+                <h3 class="product-title"><a href="#">{{ product.name}}</a></h3>
+                <p class="product-desc">Compellingly brand enterprise value after functional manufactured products. Synergistically morph process-centric intellectual capital rather than extensible catalysts for change. Credibly aggregate progressive initiatives and long-term.</p>
+                <div class="product-price">{{ product.price }}som</div>
+
+                <p class="product-desc"><strong>Цвета: </strong>{% for id, color in product.colors.values_list %}{{ color }} {% endfor %}</p>
+                <p class="product-desc"><strong>Размеры: </strong>{% for id, size in product.sizes.values_list %}{{ size }} {% endfor %}</p>
+
+                <div class="button-group">
+                    <a href="#" class="button add-to-cart">Add to cart</a>
+                    <a href="#" class="button add-to-wishlist">Add to wishlist</a>
+                    <a href="{% url 'product_detail' product.id %}" class="button add-view">Quick view</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% if products.has_next %}
+    <div class="button-v v7 text-center" id="load-more1">
+        {% if catalog != 'Все товары' %}
+            <button hx-get="{% url 'listing_products_by_catalog' catalog.slug %}?page={{ products.next_page_number }}" hx-target="#load-more1" hx-swap="outerHTML"><a class="btn-loadmore"><i class="icon-refresh f-15"></i>Load more</a></button>
+        {% else %}
+            <button hx-get="{% url 'listing_products_by_catalog' 'all' %}?page={{ products.next_page_number }}" hx-target="#load-more1" hx-swap="outerHTML"><a class="btn-loadmore"><i class="icon-refresh f-15"></i>Load more</a></button>
+        {% endif %}
+    </div>
+{% endif %}
+
+
+
+

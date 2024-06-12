@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block 'content' %}
+    <br><br><br>
+    {% if user.is_authenticated %}
+        <div class="wrap-gallery">
+            <div class="container container-42">
+                <div class="heading-gallery">
+                    <h3 class="title">
+                   Избранные
+                   </h3>
+                    <p>Все избранные товары </p>
+                </div>
+                <div class="wrap-gallery-grid">
+                    <div class="row">
+                        {% for product in favorite_products %}
+                            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6 wrap-gallery-item">
+                                <div class="lookbook-img">
+                                    <a href="{% url 'product_detail' product.product.id %}" class="hover-images effect"><img src="{{ product.product.main_image.url }}" alt="photo" class="img-reponsive"></a>
+                                    <div class="overlay-img box-center">
+                                        <a href="{% url 'product_detail' product.product.id %}" class="btn-shoplook">Посмотреть</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="main-content text-center empty-cart-content space-padding-tb-60">
+            <div class="container">
+                <span class="close-empty-cart"></span>
+                <h3>Что-то пошло не так :(</h3>
+                <a href="{% url 'home' %}" class="bordersolid-2 btn-return">Главная <span class="icon-arr"></span></a>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

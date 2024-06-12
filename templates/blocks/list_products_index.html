@@ -1,0 +1,29 @@
+<div class="row" >
+    {% for product in products %}
+        <div class="col-md-15 col-sm-3 col-xs-6 product-item">
+            <div class="product-images">
+                <a href="{% url 'product_detail' product.id %}" class="hover-images effect"><img src="{{ product.main_image.url }}" alt="photo" class="img-reponsive"></a>
+                {% if product.name in favorites %}
+                    <a href="{% url 'product_detail' product.id %}" class="btn-add-wishlist ver2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/></svg></a>
+                {% else %}
+                    <a href="{% url 'product_detail' product.id %}" class="btn-add-wishlist ver2"><i class="icon-heart"></i></a>
+                {% endif %}
+                <a href="{% url 'product_detail' product.id %}" class="btn-quickview">Больше</a>
+            </div>
+            <div class="product-info-ver2">
+                <h3 class="product-title"><a href="#">{{ product.name }}</a></h3>
+                <div class="product-after-switch">
+                    <div class="product-price">{{ product.price }} сом</div>
+                    <div class="product-after-button">
+                        <a href="{% url 'product_detail' product.id %}" class="addcart">В Корзину</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% if products.has_next %}
+    <div class="button-v v7 text-center" id="load-more">
+        <button hx-get="{% url 'home' %}?page={{ products.next_page_number }}" hx-target="#load-more" hx-swap="outerHTML"><a class="btn-loadmore"><i class="icon-refresh f-15"></i>Больше</a></button>
+    </div>
+{% endif %}

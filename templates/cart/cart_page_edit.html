@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block 'title' %}
+    <title>Корзина</title>
+{% endblock %}
+
+
+{% block 'content' %}
+    <br><br><br><br><br>
+    {% if user.is_authenticated %}
+    <div class="main-content">
+        <div class="cart-box-container-ver2">
+            <div class="container">
+                <div class="row">
+                    {% if cart %}
+                        <div class="col-md-8">
+                            <h3>Корзина пользователя</h3>
+                            <form action="{% url 'edit_cart' %}" method="post">
+                                {% csrf_token %}
+                                <table class="table cart-table space-30">
+                                    {% include 'blocks/alerts.html' %}
+                                    <tbody>
+                                        {% for product in cart %}
+                                            <tr class="item_cart">
+                                                <td class="product-photo"><img src="{{ product.product.main_image.url }}" alt="Futurelife"></td>
+                                                <td class="produc-name"><a href="{% url 'product_detail' product.product.id %}" title="">{{ product.product.name }}</a>
+                                                    <input type="text" name="ids" value="{{ product.id }}" hidden>
+                                                    <div class="quantity input-group">
+                                                        Кол-во: <input type="number" min="1" name="number" value="{{ product.total_count }}" class="product_quantity_number">
+                                                    </div>
+                                                    <select class="form-control" id="size" name="size">
+                                                        <option value="{{ product.size.id }}">{{ product.size }}</option>
+                                                        {% for id, size in product.product.sizes.values_list %}
+                                                            <option value="{{ id }}">{{ size }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                    <br>
+                                                    <select class="form-control" id="color" name="color">
+                                                        <option value="{{ product.color.id }}">{{ product.color }}</option>
+                                                        {% for id, color in product.product.colors.values_list %}
+                                                            <option value="{{ id }}">{{ color }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </td>
+
+                                                <td class="total-price">
+                                                    <a href="{% url 'delete_cart' product.id %}" class="btn btn-danger">Удалить</a>
+                                                    <p class="price">{{ product.total_price }} сом</p>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+
+                                    </tbody>
+                                </table>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-6 search-popup dropdown" data-toggle="modal" data-target="#myModalDelete">
+                                        <a class="btn link-button hover-black continue">Удалить все</a>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6">
+                                        <input type="submit" class="btn link-button hover-black update" value="Сохранить">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                    {% else %}
+                        <div class="main-content text-center empty-cart-content space-padding-tb-60">
+                            <div class="container">
+                                <span class="close-empty-cart"></span>
+                                <h3>Корзина пустая :(</h3>
+                                <a href="{% url 'home' %}" class="bordersolid-2 btn-return">Главная <span class="icon-arr"></span></a>
+                            </div>
+                        </div>
+                    {% endif %}
+
+
+
+                    <!-- End contact-form -->
+                    <div class="col-md-4">
+                        <h3>Информация</h3>
+                        <div class="text-price">
+                            <ul>
+                                <li><span class="text">Итого: </span><span class="number">{{ total_price }} сом</span></li>
+                            </ul>
+                        </div>
+                        <a class="btn link-button hover-white checkout" href="{% url 'make_order' %}" title="Proceed to checkout">Оформить заказ</a>
+                    </div>
+                </div>
+            </div>
+            <!-- End container -->
+        </div>
+        <!-- End cat-box-container -->
+    </div>
+
+    <div class="modal fade" id="myModalDelete" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Подтвердите действие</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="col-xs-12 col-sm-6" data-toggle="modal" data-target="#myModalDelete">
+                        <a href="{% url 'delete_all_cart' %}" class="btn link-button btn-danger hover-black continue">Удалить все</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <a data-dismiss="modal" class="btn link-button btn-danger hover-black update">Отменить</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+        <div class="main-content text-center empty-cart-content space-padding-tb-60">
+            <div class="container">
+                <span class="close-empty-cart"></span>
+                <h3>Что-то пошло не так :(</h3>
+                <a href="{% url 'home' %}" class="bordersolid-2 btn-return">Главная <span class="icon-arr"></span></a>
+            </div>
+        </div>
+    {% endif %}
+
+
+    <button class="scroll_top">Вверх<span></span></button>
+{% endblock %}

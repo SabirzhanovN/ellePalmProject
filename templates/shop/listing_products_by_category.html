@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block 'title' %}
+    <title>Магазин - {{ catalog.name }} - {{ category.name }}</title>
+{% endblock %}
+
+
+{% block 'content' %}
+    <div class="page-heading">
+        <div class="banner-heading">
+            <img src="{% static 'img/headerbg_v1_1.jpg' %}" alt="" class="img-reponsive">
+            <div class="heading-content v3 text-center">
+                <div class="container container-42">
+                    <h1 class="page-title">{{ category.name }}</h1>
+                    <ul class="breadcrumb black">
+                        <li><a href="{% url 'home' %}">Главная</a></li>
+                        <li><a href="{% url 'listing_products_by_catalog' category.catalog.slug %}">{{ category.catalog.name }}</a></li>
+                        <li><a href="{% url 'listing_products_by_category' category.catalog.slug category.name %}">{{ category.name }}</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="nav nav-tabs nav-justified nav-filter">
+            <ul class="owl-carousel owl-theme js-owl-category">
+                {% for category in categories %}
+                    <li><a href="{% url 'listing_products_by_category' category.catalog.slug category.slug %}">{{ category.name }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="wrap-filter">
+        <div class="wrap-filter-box wrap-filter-number">
+            <span class="total-count">Количество товаров: {{ cnt_products }}</span>
+        </div>
+
+        <div class="wrap-filter-box text-center view-mode">
+            <a class="col" href="#" onClick="return false;"><span class="icon-grid-img"></span></a>
+        </div>
+        <div class="wrap-filter-box text-center js-filter"><a href="#" class="filter-title"><i class="icon-equalizer"></i></a>
+            <form action="#" method="get" class="form-filter-product js-filter-open">
+                <span class="close-left js-close"><i class="icon-close f-20"></i></span>
+                <div class="product-filter-wrapper">
+                    <div class="product-filter-inner text-left">
+                        <div class="product-filter">
+                            <div class="form-group">
+                                <span class="title-filter">Category</span>
+                                <button class="dropdown-toggle form-control" type="button" data-toggle="dropdown">Select a category
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>Select a category</li>
+                                    <li>Backpacks</li>
+                                    <li>Decoration</li>
+                                    <li>Essentials</li>
+                                    <li>Interior</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="product-filter">
+                            <div class="form-group">
+                                <span class="title-filter">Color</span>
+                                <button class="dropdown-toggle form-control" type="button" data-toggle="dropdown">Choose color
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>Choose color</li>
+                                    <li>Red</li>
+                                    <li>Blue</li>
+                                    <li>Gray</li>
+                                    <li>White</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="product-filter">
+                            <div class="form-group">
+                                <span class="title-filter">Size</span>
+                                <button class="dropdown-toggle form-control" type="button" data-toggle="dropdown">Choose size
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>Choose size</li>
+                                    <li>S</li>
+                                    <li>M</li>
+                                    <li>L</li>
+                                    <li>XL</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="product-filter">
+                            <div class="form-group">
+                                <span class="title-filter">Price</span>
+                                <div class="filter-content">
+                                    <div class="price-range-holder">
+                                        <input type="text" class="price-slider" value="">
+                                    </div>
+                                    <span class="min-max">
+                                    Price: $30 — $3450
+                                </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="product-filter-button-group clearfix">
+                        <div class="product-filter-button">
+                            <a href="" class="btn-submit">Fillter </a>
+                        </div>
+                        <div class="product-filter-button">
+                            <a href="" class="btn-submit">Clear </a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="wrap-filter-box text-center view-mode">
+            <a class="list" href="#" onClick="return false;"><span class="icon-list-img"></span></a>
+        </div>
+        <div class="wrap-filter-box wrap-filter-sorting">
+            <button class="dropdown-toggle" type="button" data-toggle="dropdown" id="menu2">Sort by newness
+            </button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="menu2">
+                <li><a href="#" title="">Sort by newness</a></li>
+                <li><a href="#" title="">Best Selling</a></li>
+                <li><a href="#" title="">Best Selling</a></li>
+            </ul>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+
+
+
+
+    {% if products %}
+        <div class="container container-42">
+            <div class="product-grid product-flat">
+                <div class="tab-content">
+                    <div id="all" class="tab-pane fade in active">
+                        {% include 'blocks/list_products_listing_products_by_category.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="main-content text-center empty-cart-content space-padding-tb-60">
+            <div class="container">
+                <span class="close-empty-cart"></span>
+                <h3>Товары не найдены.</h3>
+                <a href="{% url 'home' %}" class="bordersolid-2 btn-return">Главная <span class="icon-arr"></span></a>
+            </div>
+        </div>
+    {% endif %}
+
+
+
+
+    <button class="scroll_top">Вверх<span></span></button>
+{% endblock %}

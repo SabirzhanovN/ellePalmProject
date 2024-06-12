@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block 'title' %}
+    <title>AMANI DRESS - Регистрация</title>
+{% endblock %}
+
+{% block 'content' %}
+<br><br><br><br>
+<div class="main-content space-padding-tb-70">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12">
+                <div class="customer-page">
+                    <div class="title-page">
+                        <h3>Register</h3>
+                    </div>
+                    {% include 'blocks/alerts.html' %}
+                    <form method="post" class="form-customer form-login" action="{% url 'register' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="exampleInputFName">Имя *</label>
+                            <input type="text" class="form-control form-account" id="exampleInputFName" name="first_name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputLName">Фамилия *</label>
+                            <input type="text" class="form-control form-account" id="exampleInputLName" name="last_name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputSName">Отчество *</label>
+                            <input type="text" class="form-control form-account" id="exampleInputSName" name="second_name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPhone">Номер *</label>
+                            <input type="text" class="form-control form-account" id="exampleInputPhone" placeholder="+996 *** *** ***" name="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Email почта *</label>
+                            <input type="email" class="form-control form-account" id="exampleInputEmail1" placeholder="example@example.com" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Пароль *</label>
+                            <input type="password" class="form-control form-account" id="exampleInputPassword1" name="password1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword2">Подтвердите пароль *</label>
+                            <input type="password" class="form-control form-account" id="exampleInputPassword2" name="password2" required>
+                        </div>
+                        <div class="form-check">
+                            <button type="submit" class="btn-login btn-register hover-white">Регистрация</button>
+                        </div>
+                    </form>
+                    <span class="divider"></span>
+                    <a href="{% url 'login' %}" class="btn link-button create-account hover-black">Войти</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button class="scroll_top">Вверх<span></span></button>
+{% endblock %}

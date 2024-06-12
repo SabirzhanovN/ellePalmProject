@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block 'title' %}
+    <title>Поиск - {{ q }}</title>
+{% endblock %}
+
+
+{% block 'content' %}
+    <br><br><br><br><br><br>
+    <div class="product-standard product-grid">
+        <div class="container container-42">
+            <div class="tab-content">
+                {% if products %}
+                    <div id="all" class="tab-pane fade in active">
+                        <div class="row">
+                            {% for product in products %}
+                                <div class="col-md-15 col-sm-3 col-xs-6 product-item">
+                                    <div class="product-images">
+                                        <a href="{% url 'product_detail' product.id %}" class="hover-images effect"><img src="{{ product.main_image.url }}" alt="photo" class="img-reponsive"></a>
+                                        <a href="{% url 'product_detail' product.id %}" class="btn-quickview">Больше</a>
+                                        <div class="ribbon-price"><span>{{ product.price }} сом</span></div>
+                                        <h3 class="product-title">{{ product.name }}</h3>
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                        </div>
+                        <div class="pagination-container pagination-blog button-v text-center">
+                            <nav>
+                                {% if products.has_other_pages %}
+                                    <ul class="pagination">
+                                        {% if products.has_previous %}
+                                            <li>
+                                                <a href="{% url 'search' %}?q={{ q }}&page={{ products.previous_page_number }}" aria-label="Previous">
+                                                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                                                </a>
+                                            </li>
+                                        {% endif %}
+
+                                        {% for i in products.paginator.page_range %}
+                                            {% if products.number == i %}
+                                                <li><a class="active" href="{% url 'search' %}?q={{ q }}&page={{ i }}">{{ i }}</a></li>
+                                            {% else %}
+                                                <li><a class="" href="{% url 'search' %}?q={{ q }}&page={{ i }}">{{ i }}</a></li>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if products.has_next %}
+                                            <li>
+                                                <a href="{% url 'search' %}?q={{ q }}&page={{ products.next_page_number }}" aria-label="Previous">
+                                                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                                </a>
+                                            </li>
+                                        {% endif %}
+                                    </ul>
+                                {% endif %}
+                            </nav>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="main-content text-center empty-cart-content space-padding-tb-60">
+                        <div class="container">
+                            <span class="close-empty-cart"></span>
+                            <h3>По запросу "{{ q }}" товары не найдены :(</h3>
+                            <a href="{% url 'home' %}" class="bordersolid-2 btn-return">Главная <span class="icon-arr"></span></a>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <button class="scroll_top">Вверх<span></span></button>
+
+{% endblock %}

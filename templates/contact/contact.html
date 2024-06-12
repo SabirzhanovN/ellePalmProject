@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block 'title' %}
+    <title>Связаться с нами</title>
+{% endblock %}
+
+
+{% block 'content' %}
+
+<br><br>
+<div class="container">
+    <div class="contact contact_map">
+        <div class="row">
+            <div class="col-xs-12 col-md-4">
+                <h2 class="about-title ver2">AMANI DRESS</h2>
+                <p class="address">1308 W.Lake St.Roselle.IL 60172</p>
+                <p>График работы</p>
+                <p class="hours">ПН 13:00-17:00</p>
+                <p class="hours">ВТ 9:00-16:00</p>
+                <p class="hours">СР 9:00-16:00</p>
+                <p class="hours">ЧТ 9:00-16:00</p>
+                <p class="hours">ПТ 9:00-16:00</p>
+                <p class="hours">СБ 9:30-15:00</p>
+                <a href="" class="contact-mail">sayhello@costore.com</a>
+                <a href="" class="contact-mail">312-505-0300</a>
+                <div class="contact-social">
+                    <a href="#" title="twitter">
+                        <i class="fa fa-twitter"></i>
+                    </a>
+                    <a href="#" title="facebook">
+                        <i class="fa fa-facebook"></i>
+                    </a>
+                    <a href="#" title="google plus">
+                        <i class="fa fa-google-plus"></i>
+                    </a>
+                    <a href="#" title="instagram">
+                        <i class="fa fa-instagram"></i>
+                    </a>
+                    <a href="#" title="fa fa-pinterest-p">
+                        <i class="fa fa-fa fa-pinterest-p"></i>
+                    </a>
+                    <a href="#" title="vimeo">
+                        <i class="fa fa-vimeo"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-8">
+                <h2 class="about-title ver2">Оставьте заявку на обратную связь</h2>
+                <form action="{% url 'call_back' %}" class="comment-form" method="post" >
+                    {% csrf_token %}
+                    <div class="form-group ver2">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>Ф.И.О *</label>
+                                <input type="text" name="full_name" class="form-control" placeholder="Введите ваше Ф.И.О" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group ver2">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>Номер *</label>
+                                <input type="text" name="phone" class="form-control" placeholder="+996 *** *** ***" value="+996" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group ver2">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>Почта *</label>
+                                <input type="email" name="email" class="form-control" placeholder="example@example.com" >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group ver2">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>Вопрос</label>
+                                <textarea name="message" id="message" tabindex="2" class="form-control" placeholder="..." required></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="submit" class="btn btn-submit ver3" value="Отправить">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button class="scroll_top">Вверх<span></span></button>
+{% endblock %}

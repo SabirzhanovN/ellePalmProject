@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block 'title' %}
+    <title>Оформить заказ</title>
+{% endblock %}
+
+
+{% block 'content' %}
+    <!-- /header -->
+    <div class="main-content space-padding-tb-70">
+        <div class="container">
+            <br>
+            <form name="checkout" method="post" class="checkout" action="{% url 'make_order_single' product.id %}">
+                {% csrf_token %}
+                <div class="cart-box-container-ver2">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h3>Детали заказа</h3>
+                            <hr>
+                            <div class="row form-customer">
+                                <div class="form-group col-md-6">
+                                    <label for="inputfname_2" class=" control-label">Имя *</label>
+                                    <input type="text" id="inputfname_2" class="form-control form-account" name="first_name" {% if user.is_authenticated %} value="{{ user.first_name }}" {% endif %} required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputlname" class=" control-label">Фамилия *</label>
+                                    <input type="text" id="inputlname" class="form-control form-account" name="last_name" {% if user.is_authenticated %} value="{{ user.last_name }}" {% endif %} required>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="inputcompany" class=" control-label">Отчество *</label>
+                                    <input type="text" id="inputcompany" class="form-control form-account" name="second_name" {% if user.is_authenticated %} value="{{ user.second_name }}" {% endif %} placeholder="Необязательно">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputemail" class=" control-label">Email *</label>
+                                    <input type="email" id="inputemail" class="form-control form-account" placeholder="example@gmail.com" {% if user.is_authenticated %} value="{{ user.email }}" {% endif %} name="email" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputphone" class=" control-label">Номер телефона *</label>
+                                    <input type="text" id="inputphone" class="form-control form-account" placeholder="+996" {% if user.is_authenticated %} value="{{ user.phone }}" {% endif %} name="phone">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label class="control-label">Регион *</label>
+                                    <select name="region" class="country form-control form-account">
+                                        <option>Бишкек</option>
+                                        <option>Талас</option>
+                                        <option>Ыссык-кол</option>
+                                        <option>Нарын</option>
+                                        <option>Ош</option>
+                                        <option>Жалал-Абад</option>
+                                        <option>Баткен</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="inputstreet" class=" control-label">Адрес *</label>
+                                    <input type="text" id="inputstreet" class="form-control form-account" name="address" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputpostcode" class=" control-label">Дом *</label>
+                                    <input type="text" id="inputpostcode" class="form-control form-account" name="home" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputfState" class=" control-label">Квартира *</label>
+                                    <input type="text" id="inputfState" class="form-control form-account" name="apartment" placeholder="Необязательно">
+                                </div>
+                            </div>
+                            <h3>Способ получения</h3>
+                            <div class="row form-customer">
+                                <div class="form-check col-md-12">
+                                    <label class="form-check-label ver2">
+                                        <input type="radio" class="form-check-input" name="delivery" value="Самовывоз">
+                                        <span>Самовывоз</span>
+                                    </label><br>
+                                    <label class="form-check-label ver2">
+                                        <input type="radio" class="form-check-input" name="delivery" value="Доставка">
+                                        <span>Доставка</span>
+                                    </label>
+                                </div>
+
+                                <div class="form-group col-md-12">
+                                    <label for="inputfState" class=" control-label">Комментарии к заказу</label>
+                                    <textarea name="message" rows="5" id="message" class="form-control form-note" placeholder="Прикрепите сообщение к заказу."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End contact-form -->
+
+                        <div class="col-md-4">
+                            <h3>Товар</h3>
+                            <div class="cart-list">
+                                <ul class="list">
+                                    <li class="flex">
+                                        <a href="#" title="" class="cart-product-image"><img src="{{ product.main_image.url }}" alt="Product"></a>
+                                        <div class="text">
+                                            <p class="product-name">{{ product.name }}</p>
+                                            <p class="product-price">{{ product.price }} сом</p>
+                                        </div>
+                                    </li>
+
+                                    <label for="color">Цвет</label>
+                                    <select class="form-control" id="color" name="color">
+                                        {% for id, color in product.colors.values_list %}
+                                            <option value="{{ id }}">{{ color }}</option>
+                                        {% endfor %}
+                                    </select>
+
+                                    <label for="size">Размер</label>
+                                    <select class="form-control" id="size" name="size">
+                                        {% for id, size in product.sizes.values_list %}
+                                            <option value="{{ id }}">{{ size }}</option>
+                                        {% endfor %}
+                                    </select>
+
+                                </ul>
+                            </div>
+                            <h3>Сумма</h3>
+                            <div class="text-price">
+                                <ul>
+                                    <li><span class="text">Итого: </span><span class="number">{{ product.price }} сом</span></li>
+                                </ul>
+                            </div>
+
+                            <input type="submit" class="btn link-button hover-white btn-checkout" value="Оформить">
+                            <br><br>
+                            <i>"Оформите заказ и мы свяжемся с вами"</i>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+
+    <button class="scroll_top">Вверх<span></span></button>
+{% endblock %}

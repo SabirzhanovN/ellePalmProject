@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block 'title' %}
+    <title>{{ product.category.name }} - {{ product.name }}</title>
+{% endblock %}
+
+
+{% block 'content' %}
+    <br><br><br><br><br><br>
+    <div class="container container-42">
+        <ul class="breadcrumb">
+            <li><a href="{% url 'home' %}">Главная</a></li>
+            <li><a href="{% url 'listing_products_by_category' product.category.catalog.slug product.category.slug %}">{{ product.category.name }}</a></li>
+            <li class="active"><a href="">{{ product.name }}</a></li>
+        </ul>
+    </div>
+
+
+    <div class="container">
+        <div class="single-product-detail product-bundle space-50">
+            <div class="row">
+                <div class="col-xs-12 col-sm-5 col-md-6">
+                    <div class="product-images">
+                        <div class="main-img js-product-slider">
+                            <a href="#" class="hover-images effect"><img src="{{ product.main_image.url }}" alt="photo" class="img-reponsive"></a>
+                            {% if product.image_1 %}
+                                <a href="#" class="hover-images effect"><img src="{{ product.image_1.url }}" alt="photo" class="img-reponsive"></a>
+                            {% endif %}
+                            {% if product.image_2 %}
+                                <a href="#" class="hover-images effect"><img src="{{ product.image_2.url }}" alt="photo" class="img-reponsive"></a>
+                            {% endif %}
+                            {% if product.image_3 %}
+                                <a href="#" class="hover-images effect"><img src="{{ product.image_3.url }}" alt="photo" class="img-reponsive"></a>
+                            {% endif %}
+                            {% if product.image_4 %}
+                                <a href="#" class="hover-images effect"><img src="{{ product.image_4.url }}" alt="photo" class="img-reponsive"></a>
+                            {% endif %}
+                            {% if product.image_5 %}
+                                <a href="#" class="hover-images effect"><img src="{{ product.image_5.url }}" alt="photo" class="img-reponsive"></a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="multiple-img-list-ver2 js-click-product">
+                        <div class="product-col">
+                            <div class="img active">
+                                <img src="{{ product.main_image.url }}" alt="images" class="img-responsive">
+                            </div>
+                        </div>
+                        {% if product.image_1 %}
+                            <div class="product-col">
+                                <div class="img active">
+                                    <img src="{{ product.image_1.url }}" alt="images" class="img-responsive">
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if product.image_2 %}
+                            <div class="product-col">
+                                <div class="img active">
+                                    <img src="{{ product.image_2.url }}" alt="images" class="img-responsive">
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if product.image_3 %}
+                            <div class="product-col">
+                                <div class="img active">
+                                    <img src="{{ product.image_3.url }}" alt="images" class="img-responsive">
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if product.image_4 %}
+                            <div class="product-col">
+                                <div class="img active">
+                                    <img src="{{ product.image_4.url }}" alt="images" class="img-responsive">
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if product.image_5 %}
+                            <div class="product-col">
+                                <div class="img active">
+                                    <img src="{{ product.image_5.url }}" alt="images" class="img-responsive">
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-7 col-md-6">
+                    <div class="single-product-info">
+                        {% include 'blocks/alerts.html' %}
+                        <hr>
+                        <h2 class="product-title space-pm">{{ product.name }}</h2>
+                        <div class="product-price">
+                            <span>{{ product.price }} сом</span>
+                        </div>
+                        <p class="product-desc">{{ product.description }}</p>
+
+                        <form action="{% url 'add_to_cart' product.id %}" method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="color">Цвет</label>
+                                <select class="form-control" id="color" name="color">
+                                    {% for id, color in product.colors.values_list %}
+                                        <option value="{{ id }}">{{ color }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="size">Размер</label>
+                                <select class="form-control" id="size" name="size">
+                                    {% for id, size in product.sizes.values_list %}
+                                        <option value="{{ id }}">{{ size }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="action">
+                                <div class="quantity">
+
+                                    <input type="number" min="1" name="count" value="1" class="product_quantity_number js-number">
+
+                                </div>
+                                {% if user.is_authenticated %}
+                                    <input type="submit" class="link-ver1 add-cart" value="В корзину">
+                                {% else %}
+                                    <a href="{% url 'login' %}" class="link-ver1 add-cart">В корзину</a>
+                                {% endif %}
+
+                                {% if user.is_authenticated %}
+                                    {% if product.name in favorites %}
+                                        <a href="{% url 'delete_from_favorites' product.id %}" class="link-ver1 wish"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                          <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/></svg>
+                                        </a>
+                                    {% else %}
+                                        <a href="{% url 'add_to_favorites' product.id %}" class="link-ver1 wish"><i class="icon-heart f-15"></i></a>
+                                    {% endif %}
+                                {% else %}
+                                    <a href="{% url 'login' %}" class="link-ver1 wish"><i class="icon-heart f-15"></i></a>
+                                {% endif %}
+                                <div class="clearfix">
+                                    <br>
+                                    <a href="{% url 'make_order_single' product.id %}" class="link-ver1 add-cart">Заказать</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--single-product-detail-->
+    </div>
+
+
+
+
+    <div class="product-related">
+        <div class="container container-42">
+            <hr>
+            <h3 class="title text-center">Так же рекомендуем</h3>
+            <div class="owl-carousel owl-theme js-owl-product">
+                {% for product in products %}
+                    <div class="product-item">
+                        <div class="product-images">
+                            <a href="{% url 'product_detail' product.id %}" class="hover-images effect"><img src="{{ product.main_image.url }}" alt="products" class="img-reponsive"></a>
+                            <a href="#" class="btn-add-wishlist ver2"><i class="icon-heart"></i></a>
+                            <a href="#" class="btn-quickview">Больше</a>
+                        </div>
+                        <div class="product-info-ver2">
+                            <h3 class="product-title space-pm"><a href="#">{{ product.name }}</a></h3>
+                            <div class="product-after-switch">
+                                <div class="product-price">{{ product.price }} сом</div>
+                                <div class="product-after-button">
+                                    <a href="#" class="addcart">В корзину</a>
+                                </div>
+                            </div>
+                            <div class="product-price">{{ product.price }} сом</div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <button class="scroll_top">Вверх<span></span></button>
+
+{% endblock %}

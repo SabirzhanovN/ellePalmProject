@@ -1,0 +1,177 @@
+        <header id="header" class="header-v4 header-top-absolute home-clean">
+            <div class="topbar">
+                <div class="container container-40">
+                    <div class="topbar-left">
+                        <div class="topbar-option">
+                            <div class="topbar-account">
+                                {% if user.is_authenticated %}
+                                    <a href="{% url 'edit_cart' %}"><i class="icon-user f-15"></i></a>
+                                {% else %}
+                                    <a href="{% url 'edit_cart' %}"><i class="icon-user f-15"></i></a>
+                                {% endif %}
+                            </div>
+                            <div class="topbar-wishlist">
+                                {% if user.is_authenticated %}
+                                    <a href="{% url 'favorites_list' %}">
+                                        <i class="icon-heart f-15"></i>
+                                        <span class="count wishlist-count">{{ fav_len }}</span>
+                                    </a>
+                                {% else %}
+                                    <a href="{% url 'login' %}">
+                                        <i class="icon-heart f-15"></i>
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <!--end topbar-option-->
+                    </div>
+                    <!--end topbar-left-->
+                    <div class="topbar-right">
+                        <div class="topbar-option">
+                            <div class="topbar-search">
+                                <div class="search-popup dropdown" data-toggle="modal" data-target="#myModal">
+                                    <a href="#"><i class="icon-magnifier f-15"></i></a>
+                                </div>
+                            </div>
+                            <div class="topbar-cart">
+                                {% if user.is_authenticated %}
+                                    <a class="icon-cart">
+                                        <i class="icon-basket f-15"></i>
+                                        <span class="count cart-count">{{ cart_count }}</span>
+                                    </a>
+                                {% else %}
+                                    <a class="icon-cart">
+                                        <i class="icon-basket f-15"></i>
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <!--end topbar-option-->
+                    </div>
+                    <!--end topbar-right-->
+
+                    <!-- menu with logo-->
+                    <div class="topbar-center hidden-xs hidden-sm">
+                        <ul class="nav navbar-nav js-menubar">
+                            <li class="level1 active dropdown"><a href="{% url 'home' %}">Главная</a></li>
+
+                            <li class="level1 dropdown hassub"><a href="{% url 'listing_products_by_catalog' 'all' %}">Магазин</a>
+                                <span class="plus js-plus-icon"></span>
+                                <div class="menu-level-1 dropdown-menu">
+                                    <ul class="level1">
+                                        {% for i in head_cat %}
+                                            <li class="level2 col-3">
+                                                <a href="{% url 'listing_products_by_catalog' i.catalog.slug %}">{{ i.catalog.name }}</a>
+
+                                                <ul class="menu-level-2 col-3">
+                                                    {% for category in i.categories %}
+                                                        <li class="level3"><a href="{% url 'listing_products_by_category' i.catalog.slug category.slug %}" title="Cart Empty">{{ category.name }}</a></li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </li>
+                                        {% endfor %}
+
+                                        <li class="level2 col-3">
+                                            <a href="{% url 'listing_products_by_catalog' 'all' %}">Все товары</a>
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </li>
+
+
+                            <li class="level1"><a href="{% url 'home' %}" title="home-logo"><img src="img/cosre.png" alt="logo" class="img-reponsive"></a></li>
+
+                            <li class="level1 active dropdown">
+                                <a>Аккаунт</a>
+                                <span class="plus js-plus-icon"></span>
+                                {% if user.is_authenticated %}
+                                    <ul class="dropdown-menu menu-level-1">
+                                        <li class="level2"><a href="{% url 'edit_cart' %}" title="Quick View">{{ user.email }}</a></li>
+                                        <li class="level2"><a href="{% url 'logout' %}" title="Hover Product 4">Выйти</a></li>
+                                    </ul>
+                                {% else %}
+                                    <ul class="dropdown-menu menu-level-1">
+                                        <li class="level2"><a href="{% url 'login' %}" title="Quick View">Войти</a></li>
+                                        <li class="level2"><a href="{% url 'register' %}" title="Hover Product 4">Регистрация</a></li>
+                                    </ul>
+                                {% endif %}
+                            </li>
+                            <li class="level1 active dropdown">
+                                <a href="{% url 'contact' %}">Контакты</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- end menu with logo-->
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+
+
+            <div class="header-top hidden-lg hidden-md">
+                <div class="container container-40">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="logo-mobile hidden-lg hidden-md">
+                                <a href="{% url 'home' %}" title="home-logo"><img src="img/cosre.png" alt="logo" class="img-reponsive"></a>
+                            </div>
+                            <!--end logo-->
+                            <button type="button" class="navbar-toggle icon-mobile" data-toggle="collapse" data-target="#myNavbar">
+                                <span class="icon-menu"></span>
+                            </button>
+                            <nav class="navbar main-menu">
+                                <div class="collapse navbar-collapse" id="myNavbar">
+                                    <ul class="nav navbar-nav js-menubar">
+                                        <li class="level1 active dropdown"><a href="{% url 'home' %}">Главная</a></li>
+
+                                        <li class="level1 dropdown hassub"><a href="{% url 'listing_products_by_catalog' 'all' %}">Магазин</a>
+                                            <span class="plus js-plus-icon"></span>
+                                            <div class="menu-level-1 dropdown-menu">
+                                                <ul class="level1">
+                                                    {% for i in head_cat %}
+                                                        <li class="level2 col-3">
+                                                            <a href="{% url 'listing_products_by_catalog' i.catalog.slug %}">{{ i.catalog.name }}</a>
+
+                                                            <ul class="menu-level-2 col-3">
+                                                                {% for category in i.categories %}
+                                                                    <li class="level3"><a href="{% url 'listing_products_by_category' i.catalog.slug category.slug %}" title="Cart Empty">{{ category.name }}</a></li>
+                                                                {% endfor %}
+                                                            </ul>
+                                                        </li>
+                                                    {% endfor %}
+                                                    <li class="level2 col-3">
+                                                        <a href="{% url 'listing_products_by_catalog' 'all' %}">Все товары</a>
+                                                    </li>
+                                                </ul>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </li>
+
+
+                                        <li class="level1 active dropdown">
+                                            <a href="#">Аккаунт</a>
+                                            <span class="plus js-plus-icon"></span>
+                                            {% if user.is_authenticated %}
+                                                <ul class="dropdown-menu menu-level-1">
+                                                    <li class="level2"><a href="{% url 'edit_cart' %}" title="Quick View">{{ user.email }}</a></li>
+                                                    <li class="level2"><a href="{% url 'logout' %}" title="Hover Product 4">Выйти</a></li>
+                                                </ul>
+                                            {% else %}
+                                                <ul class="dropdown-menu menu-level-1">
+                                                    <li class="level2"><a href="{% url 'login' %}" title="Quick View">Войти</a></li>
+                                                    <li class="level2"><a href="{% url 'register' %}" title="Hover Product 4">Регистрация</a></li>
+                                                </ul>
+                                            {% endif %}
+                                        </li>
+                                        <li class="level1 active dropdown">
+                                            <a href="{% url 'contact' %}">Контакты</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- /header -->

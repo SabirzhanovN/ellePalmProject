@@ -1,0 +1,160 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+    <link rel="stylesheet" href="{% static 'css/slick.css' %}">
+    <link rel="stylesheet" href="{% static 'css/slick-theme.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+    <link rel="shortcut icon" href="{% static 'img/favicon.png' %}" type="image/png">
+    <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-slider.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,700,900" rel="stylesheet">
+
+
+
+    {% block 'title' %}{% endblock %}
+</head>
+<body>
+    {% if user.is_authenticated %}
+        <!--push menu cart -->
+        <div class="pushmenu pushmenu-left cart-box-container">
+            <div class="cart-list">
+                <span class="close-left js-close">x</span>
+                <h3 class="cart-title">Корзина</h3>
+
+                    {% if cart %}
+                        <ul class="list">
+                            {% for cart_product in cart %}
+                                <li>
+                                    <a href="{% url 'product_detail' cart_product.product.id %}" title="" class="cart-product-image"><img src="{{ cart_product.product.main_image.url }}" alt="Product"></a>
+                                    <div class="col-sm-8">
+                                        <p><strong>Цвет:</strong> {{ cart_product.color }}</p>
+                                        <p><strong>Размер:</strong> {{ cart_product.size }}</p>
+                                        <hr>
+                                    </div>
+                                    <div class="text">
+                                        <p class="product-name">{{ cart_product.product.name }}</p>
+                                        <p class="product-price">{{ cart_product.total_price }} сом</p>
+                                        <div class="quantity input-group">
+                                            <p class="product_quantity_number js-number">{{ cart_product.total_count }}</p>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+
+
+                        <div class="cart-bottom">
+                            <p class="total"><span>Общая сумма: </span> {{ total_price }} сом</p>
+                            <div class="cart-button">
+                                <a class="edit-cart" href="{% url 'make_order' %}" title="edit cart">Заказать</a>
+                                <a class="edit-cart" href="{% url 'edit_cart' %}" title="edit cart">Изменить</a>
+                            </div>
+
+                            <a href="#" class="text">Our Shipping & Return Policy</a>
+                        </div>
+                        <!-- End cart bottom -->
+                    {% else %}
+                        <br><br><br><br><br>
+                        <span class="close-empty-cart"></span>
+                        <h3 align="center">Корзина пустая</h3>
+
+                        <div class="cart-bottom">
+                            <div class="cart-button">
+                                <a href="{% url 'listing_products_by_catalog' 'all' %}" class="bordersolid-2 btn-return">Магазин <span class="icon-arr"></span></a>
+                            </div>
+
+                            <a href="{% url 'privacy_policy' %}" class="text">Наш магазин & Политика конфиденциальности</a>
+                        </div>
+                    {% endif %}
+
+            </div>
+        </div>
+        <!-- End cart -->
+    {% else %}
+        <!--push menu cart -->
+        <div class="pushmenu pushmenu-left cart-box-container">
+            <div class="cart-list">
+                <span class="close-left js-close">x</span>
+                <h3 class="cart-title">Корзина</h3>
+                <div class="nocart-list">
+                    <div class="empty-cart">
+                        <a href="{% url 'login' %}" class="btn-shop btn-arrow">Войти</a>
+                    </div>
+                </div>
+
+                <div class="cart-bottom">
+                    <a href="{% url 'privacy_policy' %}" class="text">Наш магазин & Политика конфиденциальности</a>
+                </div>
+                <!-- End cart bottom -->
+            </div>
+        </div>
+        <!-- End cart -->
+    {% endif %}
+
+
+
+
+    <!-- Search -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">SEARCH HERE</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group">
+                        <form method="get" class="searchform" action="{% url 'search' %}" role="search">
+                            <input type="text" name="q" class="form-control control-search">
+                            <span class="input-group-btn">
+                              <i data-toggle="dropdown" class="fa fa-search"></i><input class="btn btn-default button_search" type="submit" value="Поиск">
+                            </span>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--END  Modal content-->
+
+
+
+
+
+
+
+
+
+
+
+    <div class="wrappage">
+        {% include 'blocks/header.html' %}
+
+        {% block 'content' %}
+        {% endblock %}
+
+        {% include 'blocks/footer.html' %}
+    </div>
+
+
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/slick.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap-slider.min.js' %}"></script>
+    <script src="{% static 'js/masonry.pkgd.min.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+
+
+    <script src="https://unpkg.com/htmx.org@1.6.1"></script>
+
+</body>
+</html>

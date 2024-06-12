@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block 'title' %}
+    <title>AMANI DRESS</title>
+{% endblock %}
+
+{% block 'content' %}
+    <!--slide-->
+    <div class="wrapper-slider homeclean-slider js-homeclean-slider">
+        <div class="slider-img ">
+            <img src="{% static 'img/homeclean_1.jpg' %}" alt="" class="img-responsive">
+            <div class="container box-center">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="slider-content text-center">
+                            <h1>AMANI</h1>
+                            <h1>DRESS</h1>
+                            <a href="{% url 'listing_products_by_catalog' 'all' %}" class="btn-shop">Магазин</a>
+                            {% include 'blocks/alerts.html' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slider-img ">
+            <img src="{% static 'img/homeclean_2.jpg' %}" alt="" class="img-responsive">
+        </div>
+        <div class="slider-img ">
+            <img src="{% static 'img/homeclean_3.jpg' %}" alt="" class="img-responsive">
+        </div>
+    </div>
+    <!--endslide-->
+
+
+
+    <!--banner-->
+    <div class="container container-40">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="banner-img">
+                    <a class="" href="{% url 'listing_products_by_catalog' 'zhenskaya-odezhda' %}"><img src="{% static 'img/banner_1.jpg' %}" alt="banner" class="img-reponsive"></a>
+                    <div class="banner-content">
+                        <a href="{% url 'listing_products_by_catalog' 'zhenskaya-odezhda' %}"><h3 class="banner-title">Женская коллекция</h3></a>
+                        <p>Free Shiping On All Oders</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="banner-img">
+                    <a class="" href="{% url 'listing_products_by_catalog' 'muzhskaya-odezhda' %}"><img src="{% static 'img/banner_2.jpg' %}" alt="banner" class="img-reponsive"></a>
+                    <div class="banner-content">
+                        <a href="{% url 'listing_products_by_catalog' 'muzhskaya-odezhda' %}"><h3 class="banner-title">Мужская коллекция</h3></a>
+                        <p>Free Shiping On All Oders</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--en-banner-->
+
+
+
+
+    <!--wrapper product-->
+    <div class="wrapper-product space-margin-top-85 ">
+        <div class="container container-40" >
+            <h3 class="heading-v2 text-center">Новинки</h3>
+
+            {% include 'blocks/list_products_index.html' %}
+
+        </div>
+    </div>
+    <!--end wrapper product-->
+
+
+
+
+<!--newsletter-->
+<div class="container container-40">
+    <div class="newsletter">
+        <div class="newsletter-content text-center">
+            <h3 class="newsletter-title">Обратный звонок. Свяжитесь с нами</h3>
+            <form action="{% url 'call_back' %}" method="POST" >
+                {% csrf_token %}
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Ф.И.О" name="full_name" required><br>
+                    <input type="email" class="form-control" placeholder="Почта" name="email"><br>
+                    <input type="text" class="form-control" value="+996" placeholder="+996" name="phone" required><br>
+                    <textarea name="message" id="message" tabindex="5" class="form-control" placeholder="Сообщение..."></textarea>
+                    <button type="submit" class="btn-newsletter"><i class="fa fa-angle-right" aria-hidden="false"></i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--end newsletter-->
+
+
+<!--blog-->
+<div class="blog">
+    <div class="container">
+        <h3 class="heading text-center">Каталог</h3>
+        <div class="owl-carousel owl-theme js-owl-blog">
+            {% for catalog in catalogs %}
+                <div class="blog-post-item">
+                        <div class="blog-post-img">
+                            <a class="hover-images" href="{% url 'listing_products_by_catalog' catalog.slug %}"><img src="{{ catalog.image.url }}" class="img-reponsive" alt="blog-img" height="400px"></a>
+                        </div>
+                        <div class="blog-post-info">
+                            <div class="post-date"><a href="{% url 'listing_products_by_catalog' catalog.slug %}">{{ catalog.name }}</a></div>
+                            <h3 class="post-name"><a href="#">Here’s everything you need to know about the Brit Awards 2017</a></h3>
+                        </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<!--end blog-->
+
+<button class="scroll_top">Вверх<span></span></button>
+{% endblock %}
